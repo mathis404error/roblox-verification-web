@@ -27,7 +27,7 @@
 
     <section class="card hidden" id="verifyCard">
       <h2>ยืนยัน Roblox</h2>
-      <p>ขั้นตอนนี้จะใช้รหัสครั้งเดียวเพื่อผูกบัญชีเว็บไซต์กับ Roblox UserId โดยไม่ขอรหัสผ่าน Roblox</p>
+      <p>ใช้รหัสครั้งเดียวเพื่อผูกบัญชีเว็บไซต์กับ Roblox UserId โดยไม่ต้องส่งรหัสผ่าน Roblox ให้เว็บไซต์</p>
       <label for="username">ชื่อผู้ใช้ Roblox</label>
       <input id="username" type="text" placeholder="เช่น RobloxUser123" autocomplete="off">
       <button id="startVerifyBtn">สร้างรหัสยืนยัน</button>
@@ -36,13 +36,12 @@
 
     <section class="card info">
       <h2>การยืนยันจริง</h2>
-      <p>เว็บไซต์จะไม่ถือว่าการพิมพ์ชื่อ Roblox เป็นหลักฐานว่าเป็นเจ้าของบัญชี</p>
-      <p>การยืนยันจริงต้องให้ Roblox Experience ของโปรเจกต์ส่ง UserId กลับมายัง backend หลังผู้ใช้เข้าร่วมเกม</p>
-      <p>หลังยืนยันแล้วจึงตรวจข้อมูลเกมของบัญชีและกำหนดสถานะ DEV หรือ ผู้สังเกตข่าว</p>
+      <p>ชื่อผู้ใช้เพียงอย่างเดียวไม่ใช่หลักฐานว่าเป็นเจ้าของบัญชี</p>
+      <p>การยืนยันจริงต้องใช้ Roblox Experience ของโปรเจกต์เพื่อส่ง UserId หลังผู้ใช้เข้าเกม</p>
+      <p>หลังยืนยันแล้ว backend จึงตรวจข้อมูลเกมและกำหนดสถานะตามกติกา</p>
     </section>
-
-    <p class="demo">GitHub Pages ทำหน้าที่เป็นเว็บหน้าเว็บ ส่วน Auth/Roblox verification ต้องมี backend เพิ่มเติม</p>
   </main>
+  <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
