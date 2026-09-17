@@ -3,37 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roblox Verify</title>
+  <title>Roblox Verification</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="card">
+  <main class="app">
     <div class="logo">R</div>
-    <h1>Roblox Verify</h1>
-    <p class="muted">ระบบยืนยันบัญชี Roblox</p>
-
-    <section id="loginBox">
-      <h2>เริ่มต้น</h2>
-      <p>ใส่ชื่อผู้ใช้ Roblox ของคุณ แล้วระบบจะสร้างรหัสสำหรับการยืนยัน</p>
-      <input id="username" type="text" placeholder="ชื่อผู้ใช้ Roblox" autocomplete="off">
-      <button id="startBtn">เริ่มยืนยัน</button>
-      <p class="note">เวอร์ชันนี้เป็นหน้าเว็บต้นแบบ ยังไม่ยืนยันตัวตนจริง</p>
+    <h1>Roblox Verification</h1>
+    <p class="sub">ยืนยันบัญชี Roblox ของคุณ</p>
+    <section class="card">
+      <label for="username">ชื่อผู้ใช้ Roblox</label>
+      <input id="username" type="text" placeholder="เช่น RobloxUser123" autocomplete="off">
+      <button id="verifyBtn">เริ่มการยืนยัน</button>
+      <div id="result" class="result hidden"></div>
     </section>
-
-    <section id="verifyBox" class="hidden">
-      <h2>ยืนยันตัวตน</h2>
-      <p>รหัสของคุณ:</p>
-      <div id="code" class="code"></div>
-      <p>ขั้นตอนต่อไป: นำรหัสนี้ไปใช้ในเกม Roblox สำหรับการยืนยัน</p>
-      <button id="demoBtn">จำลองว่าเล่นเกมแล้ว</button>
-      <button id="backBtn" class="secondary">กลับ</button>
+    <section class="card info">
+      <h2>วิธีทำงาน</h2>
+      <p>1. ใส่ชื่อผู้ใช้ Roblox</p>
+      <p>2. ระบบจะเตรียมภารกิจให้คุณเล่นเกมที่กำหนด</p>
+      <p>3. เมื่อเชื่อมระบบ Roblox จริง ระบบจะตรวจการเข้าร่วมเกมและยืนยันบัญชี</p>
+      <p>4. ระบบสามารถแสดงสถานะ DEV หรือ ผู้สังเกตข่าวตามเงื่อนไขที่ตั้งไว้</p>
     </section>
-
-    <section id="resultBox" class="hidden">
-      <h2>ผลการตรวจสอบ</h2>
-      <div id="result"></div>
-      <button id="againBtn">ตรวจสอบบัญชีอื่น</button>
-    </section>
+    <p class="demo">เวอร์ชันนี้เป็นหน้าเว็บต้นแบบ — ยังไม่ได้ยืนยันตัวตน Roblox จริง</p>
   </main>
   <script src="app.js"></script>
 </body>
