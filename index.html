@@ -10,21 +10,38 @@
   <main class="app">
     <div class="logo">R</div>
     <h1>Roblox Verification</h1>
-    <p class="sub">ยืนยันบัญชี Roblox ของคุณ</p>
-    <section class="card">
+    <p class="sub">สมัครสมาชิกและยืนยันว่าเป็นเจ้าของบัญชี Roblox จริง</p>
+
+    <section class="card" id="authCard">
+      <div class="tabs">
+        <button class="tab active" id="loginTab">เข้าสู่ระบบ</button>
+        <button class="tab" id="signupTab">สมัครสมาชิก</button>
+      </div>
+      <label for="email">อีเมล</label>
+      <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
+      <label for="password">รหัสผ่าน</label>
+      <input id="password" type="password" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password">
+      <button id="authBtn">เข้าสู่ระบบ</button>
+      <div id="authResult" class="result hidden"></div>
+    </section>
+
+    <section class="card hidden" id="verifyCard">
+      <h2>ยืนยัน Roblox</h2>
+      <p>ขั้นตอนนี้จะใช้รหัสครั้งเดียวเพื่อผูกบัญชีเว็บไซต์กับ Roblox UserId โดยไม่ขอรหัสผ่าน Roblox</p>
       <label for="username">ชื่อผู้ใช้ Roblox</label>
       <input id="username" type="text" placeholder="เช่น RobloxUser123" autocomplete="off">
-      <button id="verifyBtn">เริ่มการยืนยัน</button>
-      <div id="result" class="result hidden"></div>
+      <button id="startVerifyBtn">สร้างรหัสยืนยัน</button>
+      <div id="verifyResult" class="result hidden"></div>
     </section>
+
     <section class="card info">
-      <h2>วิธีทำงาน</h2>
-      <p>1. ใส่ชื่อผู้ใช้ Roblox</p>
-      <p>2. ระบบจะเตรียมภารกิจให้คุณเล่นเกมที่กำหนด</p>
-      <p>3. เมื่อเชื่อมระบบ Roblox จริง ระบบจะตรวจการเข้าร่วมเกมและยืนยันบัญชี</p>
-      <p>4. ระบบสามารถแสดงสถานะ DEV หรือ ผู้สังเกตข่าวตามเงื่อนไขที่ตั้งไว้</p>
+      <h2>การยืนยันจริง</h2>
+      <p>เว็บไซต์จะไม่ถือว่าการพิมพ์ชื่อ Roblox เป็นหลักฐานว่าเป็นเจ้าของบัญชี</p>
+      <p>การยืนยันจริงต้องให้ Roblox Experience ของโปรเจกต์ส่ง UserId กลับมายัง backend หลังผู้ใช้เข้าร่วมเกม</p>
+      <p>หลังยืนยันแล้วจึงตรวจข้อมูลเกมของบัญชีและกำหนดสถานะ DEV หรือ ผู้สังเกตข่าว</p>
     </section>
-    <p class="demo">เวอร์ชันนี้เป็นหน้าเว็บต้นแบบ — ยังไม่ได้ยืนยันตัวตน Roblox จริง</p>
+
+    <p class="demo">GitHub Pages ทำหน้าที่เป็นเว็บหน้าเว็บ ส่วน Auth/Roblox verification ต้องมี backend เพิ่มเติม</p>
   </main>
   <script src="app.js"></script>
 </body>
