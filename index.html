@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roblox Verify</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <div class="logo">R</div>
+    <h1>Roblox Verify</h1>
+    <p class="muted">ระบบยืนยันบัญชี Roblox</p>
+
+    <section id="loginBox">
+      <h2>เริ่มต้น</h2>
+      <p>ใส่ชื่อผู้ใช้ Roblox ของคุณ แล้วระบบจะสร้างรหัสสำหรับการยืนยัน</p>
+      <input id="username" type="text" placeholder="ชื่อผู้ใช้ Roblox" autocomplete="off">
+      <button id="startBtn">เริ่มยืนยัน</button>
+      <p class="note">เวอร์ชันนี้เป็นหน้าเว็บต้นแบบ ยังไม่ยืนยันตัวตนจริง</p>
+    </section>
+
+    <section id="verifyBox" class="hidden">
+      <h2>ยืนยันตัวตน</h2>
+      <p>รหัสของคุณ:</p>
+      <div id="code" class="code"></div>
+      <p>ขั้นตอนต่อไป: นำรหัสนี้ไปใช้ในเกม Roblox สำหรับการยืนยัน</p>
+      <button id="demoBtn">จำลองว่าเล่นเกมแล้ว</button>
+      <button id="backBtn" class="secondary">กลับ</button>
+    </section>
+
+    <section id="resultBox" class="hidden">
+      <h2>ผลการตรวจสอบ</h2>
+      <div id="result"></div>
+      <button id="againBtn">ตรวจสอบบัญชีอื่น</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
