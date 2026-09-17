@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="เว็บไซต์ยืนยันบัญชี Roblox และตรวจสถานะผู้พัฒนา">
   <title>Roblox Verification</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,37 +11,42 @@
   <main class="app">
     <div class="logo">R</div>
     <h1>Roblox Verification</h1>
-    <p class="sub">สมัครสมาชิกและยืนยันว่าเป็นเจ้าของบัญชี Roblox จริง</p>
+    <p class="sub">สมัครสมาชิก → ยืนยันบัญชี Roblox → ตรวจสถานะ</p>
 
     <section class="card" id="authCard">
       <div class="tabs">
-        <button class="tab active" id="loginTab">เข้าสู่ระบบ</button>
-        <button class="tab" id="signupTab">สมัครสมาชิก</button>
+        <button class="tab active" id="loginTab" type="button">เข้าสู่ระบบ</button>
+        <button class="tab" id="signupTab" type="button">สมัครสมาชิก</button>
       </div>
       <label for="email">อีเมล</label>
       <input id="email" type="email" placeholder="you@example.com" autocomplete="email">
       <label for="password">รหัสผ่าน</label>
       <input id="password" type="password" placeholder="อย่างน้อย 6 ตัวอักษร" autocomplete="current-password">
-      <button id="authBtn">เข้าสู่ระบบ</button>
+      <button id="authBtn" type="button">เข้าสู่ระบบ</button>
+      <button id="logoutBtn" class="secondary hidden" type="button">ออกจากระบบ</button>
       <div id="authResult" class="result hidden"></div>
     </section>
 
     <section class="card hidden" id="verifyCard">
-      <h2>ยืนยัน Roblox</h2>
-      <p>ใช้รหัสครั้งเดียวเพื่อผูกบัญชีเว็บไซต์กับ Roblox UserId โดยไม่ต้องส่งรหัสผ่าน Roblox ให้เว็บไซต์</p>
+      <h2>🔐 ยืนยัน Roblox</h2>
+      <p>กรอกชื่อผู้ใช้ Roblox เพื่อเริ่มขั้นตอนยืนยัน จากนั้นระบบจะใช้รหัสครั้งเดียวผูกกับ Roblox UserId</p>
       <label for="username">ชื่อผู้ใช้ Roblox</label>
       <input id="username" type="text" placeholder="เช่น RobloxUser123" autocomplete="off">
-      <button id="startVerifyBtn">สร้างรหัสยืนยัน</button>
+      <button id="startVerifyBtn" type="button">สร้างรหัสยืนยัน</button>
       <div id="verifyResult" class="result hidden"></div>
     </section>
 
     <section class="card info">
-      <h2>การยืนยันจริง</h2>
-      <p>ชื่อผู้ใช้เพียงอย่างเดียวไม่ใช่หลักฐานว่าเป็นเจ้าของบัญชี</p>
-      <p>การยืนยันจริงต้องใช้ Roblox Experience ของโปรเจกต์เพื่อส่ง UserId หลังผู้ใช้เข้าเกม</p>
-      <p>หลังยืนยันแล้ว backend จึงตรวจข้อมูลเกมและกำหนดสถานะตามกติกา</p>
+      <h2>📌 วิธีทำงาน</h2>
+      <p>1. สมัครหรือเข้าสู่ระบบเว็บไซต์</p>
+      <p>2. ใส่ชื่อผู้ใช้ Roblox</p>
+      <p>3. ระบบสร้างรหัสยืนยันแบบใช้ครั้งเดียว</p>
+      <p>4. เข้า Roblox Verification Experience เพื่อยืนยันตัวตน</p>
+      <p>5. หลังยืนยัน ระบบสามารถตรวจข้อมูลเกมและแสดงสถานะ DEV หรือ ผู้สังเกตข่าวได้</p>
+      <p class="note">เว็บไซต์นี้ไม่ขอรหัสผ่าน Roblox</p>
     </section>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="config.js"></script>
   <script src="app.js"></script>
 </body>
