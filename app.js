@@ -13,7 +13,18 @@ const logoutBtn = document.getElementById('logoutBtn');
 const authResult = document.getElementById('authResult');
 const username = document.getElementById('username');
 const startVerifyBtn = document.getElementById('startVerifyBtn');
-const verifyResult = document.getElementById('verifyResult');
+const shareScreenBtn = document.getElementById('shareScreenBtn');
+const screenPreview = document.getElementById('screenPreview');
+const screenStatus = document.getElementById('screenStatus');
+const screenConfirmBtn = document.getElementById('screenConfirmBtn');
+const gameUrl = document.getElementById('gameUrl');
+const checkGameBtn = document.getElementById('checkGameBtn');
+const gameResult = document.getElementById('gameResult');
+const confirmDevBtn = document.getElementById('confirmDevBtn');
+const devResult = document.getElementById('devResult');
+let screenStream = null;
+let screenConfirmed = false;
+let devEligible = false;
 let mode = 'login';
 
 loginTab.addEventListener('click', () => setMode('login'));
@@ -27,19 +38,89 @@ logoutBtn.addEventListener('click', async () => {
   else renderSession(null);
 });
 
-startVerifyBtn.addEventListener('click', async () => {
+shareScreenBtn.addEventListener('click', async () => {
   const name = username.value.trim();
-  if (!name) return show(verifyResult, 'กรุณาใส่ชื่อผู้ใช้ Roblox', 'error');
-  if (!db) return show(verifyResult, 'ยังไม่ได้ตั้งค่า Supabase ใน config.js', 'error');
+  if (!name) return show(screenStatus, 'กรุณาใส่ชื่อผู้ใช้ Roblox ก่อน', 'error');
+  if (!navigator.mediaDevices?.getDisplayMedia) {
+    return show(screenStatus, 'เบราว์เซอร์นี้ไม่รองรับการแชร์หน้าจอ ใช้การยืนยันด้วย Roblox Experience แทนได้', 'error');
+  }
+  try {
+    screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
+    screenPreview.srcObject = screenStream;
+    screenPreview.classList.remove('hidden');
+    screenConfirmBtn.classList.remove('hidden');
+    show(screenStatus, 'เริ่มแชร์หน้าจอแล้ว กรุณาเปิดหน้าโปรไฟล์ Roblox ของคุณให้เห็นชื่อผู้ใช้ชัดเจน', 'success');
+    screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+      screenConfirmed = false;
+      screenConfirmBtn.classList.add('hidden');
+      show(screenStatus, 'หยุดแชร์หน้าจอแล้ว', 'error');
+    });
+  } catch {
+    show(screenStatus, 'ยกเลิกการแชร์หน้าจอแล้ว', 'error');
+  }
+});
 
-  const { data: { session } } = await db.auth.getSession();
-  if (!session) return show(verifyResult, 'กรุณาเข้าสู่ระบบก่อน', 'error');
+screenConfirmBtn.addEventListener('click', () => {
+  screenConfirmed = true;
+  show(screenStatus, `✓ เห็นชื่อที่คุณแสดงบนหน้าจอแล้ว: <strong>${escapeHtml(username.value.trim())}</strong><br><small>ขั้นตอนนี้เป็นการยืนยันด้วยหน้าจอ ไม่ใช่หลักฐานความเป็นเจ้าของบัญชีเพียงอย่างเดียว</small>`, 'success', true);
+});
 
-  // This UI is ready for the verification_codes Edge Function.
-  // The backend must generate/store a one-time code and Roblox Experience must redeem it.
-  show(verifyResult,
-    `กำลังเริ่มยืนยัน <strong>${escapeHtml(name)}</strong>...<br><small>ต้องติดตั้ง backend สำหรับสร้างรหัสและรับ Roblox UserId ต่อ</small>`,
-    'success', true);
+checkGameBtn.addEventListener('click', async () => {
+  const link = gameUrl.value.trim();
+  const name = username.value.trim();
+  if (!screenConfirmed) return show(gameResult, 'กรุณายืนยันขั้นตอนชื่อผู้ใช้ก่อน', 'error');
+  if (!link) return show(gameResult, 'กรุณาส่งลิงก์เกม Roblox', 'error');
+  if (!/^https?:\\/\\/(www\\.)?roblox\\.com\\/games\\/\\d+/i.test(link)) {
+    return show(gameResult, 'ลิงก์ต้องเป็นรูปแบบ https://www.roblox.com/games/รหัสเกม', 'error');
+  }
+
+  show(gameResult, 'กำลังตรวจสอบผู้สร้างเกมและจำนวนผู้เล่น...', 'success');
+  // Real verification belongs in a backend: it must resolve the universe,
+  // confirm the creator matches the verified Roblox UserId, then read the
+  // current player count. Never trust a browser-supplied DEV flag.
+  if (!db) return show(gameResult, 'ยังไม่ได้เชื่อมต่อ backend สำหรับตรวจเกมจริง', 'error');
+
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    if (!session) return show(gameResult, 'กรุณาเข้าสู่ระบบก่อน', 'error');
+
+    const { data, error } = await db.functions.invoke('check-roblox-game', {
+      body: { gameUrl: link, robloxUsername: name }
+    });
+    if (error) throw error;
+
+    if (!data?.creatorMatch) {
+      devEligible = false;
+      confirmDevBtn.classList.add('hidden');
+      return show(gameResult, '❌ เกมนี้ไม่ได้ยืนยันว่าเป็นเกมที่สร้างโดยบัญชี Roblox นี้ จึงส่ง DEV ไม่ได้', 'error');
+    }
+
+    const players = Number(data.currentPlayers || 0);
+    devEligible = players > 300;
+    if (!devEligible) {
+      confirmDevBtn.classList.add('hidden');
+      return show(gameResult, `เกมเป็นของบัญชีนี้ แต่ตอนนี้มีผู้เล่น ${players} คน — ต้องมากกว่า 300 คนจึงยืนยัน DEV ได้`, 'error');
+    }
+
+    confirmDevBtn.classList.remove('hidden');
+    show(gameResult, `✓ ผู้สร้างตรงกัน และตอนนี้มีผู้เล่น ${players} คน (>300)<br>กด “ยืนยัน DEV อีกครั้ง” เพื่อส่งสถานะ`, 'success', true);
+  } catch (error) {
+    show(gameResult, 'ตรวจเกมไม่สำเร็จ: backend ยังไม่ได้ติดตั้ง/ตั้งค่า หรือไม่สามารถอ่านข้อมูล Roblox ได้', 'error');
+  }
+});
+
+confirmDevBtn.addEventListener('click', async () => {
+  if (!devEligible) return show(devResult, 'ยังไม่ผ่านเงื่อนไข DEV', 'error');
+  if (!db) return show(devResult, 'ยังไม่ได้เชื่อมต่อ backend', 'error');
+  try {
+    const { data, error } = await db.functions.invoke('confirm-dev', {
+      body: { gameUrl: gameUrl.value.trim() }
+    });
+    if (error) throw error;
+    show(devResult, data?.ok ? '✓ ยืนยัน DEV สำเร็จ' : 'ไม่สามารถยืนยัน DEV ได้', data?.ok ? 'success' : 'error');
+  } catch {
+    show(devResult, 'ยืนยัน DEV ไม่สำเร็จ: ต้องติดตั้ง backend ก่อน', 'error');
+  }
 });
 
 async function handleAuth() {
