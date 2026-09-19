@@ -29,11 +29,22 @@
 
     <section class="card hidden" id="verifyCard">
       <h2>🔐 ยืนยัน Roblox</h2>
-      <p>กรอกชื่อผู้ใช้ Roblox เพื่อเริ่มขั้นตอนยืนยัน จากนั้นระบบจะใช้รหัสครั้งเดียวผูกกับ Roblox UserId</p>
+      <div class="step"><b>1.</b> ใส่ชื่อผู้ใช้ของคุณ</div>
       <label for="username">ชื่อผู้ใช้ Roblox</label>
       <input id="username" type="text" placeholder="เช่น RobloxUser123" autocomplete="off">
-      <button id="startVerifyBtn" type="button">สร้างรหัสยืนยัน</button>
-      <div id="verifyResult" class="result hidden"></div>
+      <button id="shareScreenBtn" type="button">🖥️ แชร์หน้าจอเพื่อยืนยันชื่อ</button>
+      <video id="screenPreview" class="screen-preview hidden" autoplay muted playsinline></video>
+      <div id="screenStatus" class="result hidden"></div>
+      <button id="screenConfirmBtn" class="secondary hidden" type="button">✓ ยืนยันชื่อที่แสดงบนหน้าจอ</button>
+
+      <div class="step game-step"><b>2.</b> ส่งลิงก์เกม Roblox ที่คุณสร้าง</div>
+      <label for="gameUrl">ลิงก์เกม Roblox</label>
+      <input id="gameUrl" type="url" placeholder="https://www.roblox.com/games/..." autocomplete="off">
+      <button id="checkGameBtn" type="button">🔎 ตรวจสอบเกม</button>
+      <div id="gameResult" class="result hidden"></div>
+
+      <button id="confirmDevBtn" class="dev-confirm hidden" type="button">✓ ยืนยัน DEV อีกครั้ง</button>
+      <div id="devResult" class="result hidden"></div>
     </section>
 
     <section class="card info">
