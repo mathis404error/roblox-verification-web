@@ -22,3 +22,8 @@ button.secondary { background:#303a54; }
 .error { background:#421d25; border:1px solid #b94355; }
 .hidden { display:none !important; }
 @media (max-width:420px) { body { padding:16px 10px; } .card { padding:16px; } h1 { font-size:26px; } }
+
+.step { padding:12px; margin-bottom:10px; border-radius:12px; background:#0d1426; color:#dce4f7; }
+.game-step { margin-top:22px; }
+.screen-preview { width:100%; max-height:280px; margin-top:12px; border-radius:12px; background:#000; border:1px solid #394663; }
+.dev-confirm { background:#168f5b; }
